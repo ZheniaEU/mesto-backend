@@ -30,6 +30,18 @@
       ]
    },
    "rules": {
+      "quotes": ["error", "double", { "avoidEscape": true }],
+      "indent": ["error", 3],
+      "semi": [2, "never"],
+      "comma-dangle": ["error", "never"],
+      "padded-blocks": ["error", "never"],
+      "no-trailing-spaces":["error", "never"],
+         "object-curly-newline": ["error", {
+             "ObjectPattern": { "multiline": true },
+             "ImportDeclaration": "never",
+            "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+         }],
+
       "import/extensions": [
          "error",
          "ignorePackages",
