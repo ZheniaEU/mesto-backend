@@ -1,12 +1,11 @@
-type Users = {
+export type Users = {
    name: string
-   id: number
+   _id: string
 }
 
 export const users: Array<Users> = [
    {
       name: "Вася",
-      id: 1
+      _id: "1"
    }
-
 ]

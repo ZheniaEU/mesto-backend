@@ -30,19 +30,21 @@
       ]
    },
    "rules": {
-      //мои правки
+      //мои правки.
       "quotes": ["warn", "double", { "avoidEscape": true }],
       "indent": ["warn", 3],
       "semi": [2, "never"],
       "comma-dangle": ["warn", "never"],
       "padded-blocks": ["off", "never"],
       "no-trailing-spaces":["off", { "ignoreComments": true }],
+      "no-underscore-dangle": ["warn", { "allow": ["_id"] }],
       "import/prefer-default-export": "off",
          "object-curly-newline": ["warn", {
              "ObjectPattern": { "multiline": true },
              "ImportDeclaration": "never",
             "ExportDeclaration": { "multiline": true, "minProperties": 3 }
          }],
+      //мои правки закончились.
       "import/extensions": [
          "error",
          "ignorePackages",
