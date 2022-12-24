@@ -1,5 +1,5 @@
 /* eslint-disable */
-import express, { Request, Response, Router } from "express"
+import express, { json, Request, Response, Router } from "express"
 //import path from "path"
 //import { users as db } from "./db"
 import mongoose, { model, Schema } from "mongoose"
@@ -12,14 +12,13 @@ mongoose.connect("mongodb://127.0.0.1:27017/mestodb")
 //mongoose.connect(process.env.MONGO_URL)
 
 type IUser = {
-   name: string
    _id: string
+   name: string
    avatar: string
 }
 
 const app = express()
 const router = Router()
-
 
 const userSchema = new Schema({
    name: {
@@ -32,7 +31,8 @@ const userSchema = new Schema({
    }
 })
 
-const UserModel = model<IUser>("users", userSchema)
+const UserModel = mongoose.model<IUser>("users", userSchema)
+
 
 router.get("/users", (req: Request, res: Response) => {
    UserModel.find({})
@@ -42,10 +42,11 @@ router.get("/users", (req: Request, res: Response) => {
       .catch(e => {
          res.status(500).send({ message: "500ка" })
       })
-//   res.status(200).send(db)
+   //   res.status(200).send(db)
 })
 
 router.post("/users", (req: Request, res: Response) => {
+   console.log(req.body)
    UserModel
       .create(req.body)
       .then(newUser => {
@@ -69,8 +70,11 @@ router.post("/users", (req: Request, res: Response) => {
 //    }
 // })
 
+app.use(json())
 app.use(router)
 
 //app.use(express.static(path.join(__dirname, "public")))
 
-app.listen(PORT, () => { })
+app.listen(PORT, () => {
+   console.log("Слухаем на порту", PORT)
+})
