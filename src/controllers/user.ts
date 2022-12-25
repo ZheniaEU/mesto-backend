@@ -1,18 +1,26 @@
 import { Request, Response } from "express"
 import { modelUser as User } from "../models/user"
 
-export const getFilms = (req: Request, res: Response) => {
-   return User.find({})
-      .then((films) => res.send({ data: films }))
-      .catch(() => res.status(500).send({ message: "Произошла ошибка" }))
+// проверить асинк авейт
+export const getUsers = async (req: Request, res: Response) => {
+
+   await User.find({})
+      .then((users) => res.status(200).send({ data: users }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка getUsers" }))
 }
 
-export const createFilm = (req: Request, res: Response) => {
-   const { title, genre } = req.body
+export const getUsersByID = async (req: Request, res: Response) => {
 
-   return User.create({ title, genre })
-      .then((film) => res.send({ data: film }))
-      .catch(() => res.status(500).send({ message: "Произошла ошибка" }))
+   await User.findById({})
+      .then((user) => res.status(200).send({ data: user }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка getUsersByID" }))
+}
+
+export const createUser = async (req: Request, res: Response) => {
+
+   await User.create(req.body)
+      .then((newUser) => res.status(200).send({ data: newUser }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка createUser" }))
 }
 
 // Создайте контроллеры и роуты для пользователей
