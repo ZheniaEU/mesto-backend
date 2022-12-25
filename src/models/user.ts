@@ -23,14 +23,10 @@ const userSchema = new Schema<User>({
       type: String,
       require: true,
       validate: {
-         validator: (str: string) => {
-            /^https:\/\/([^\s(["<,>/]*)(\/)[^\s[",><]*\.(png|jpg|jpeg|bmp)(\?[^\s[",><]*)?/g.test(str)
-         }
+         validator: (str: string) => /^https:\/\/([^\s(["<,>/]*)(\/)[^\s[",><]*\.(png|jpg|jpeg|bmp)(\?[^\s[",><]*)?/g.test(str)
       },
       message: "нишмогла, ну не прокатило"
    }
 })
 
-// Данила нужно ли нам типизировать вот эту вот шляпу? а так же экспорт по умолчанию щито?
-// Данила где дока по регам?
-export const modelUser = model<User>("users", userSchema)
+export const modelUser = model<User>("user", userSchema)

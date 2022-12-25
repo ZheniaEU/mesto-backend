@@ -9,7 +9,7 @@ const readLine = createInterface({
    output: process.stdout
 })
 
-const { PORT = 2999  } = process.env
+const { PORT = 2999 } = process.env
 mongoose.set("strictQuery", true)
 mongoose.connect("mongodb://127.0.0.1:27017/mestodb")
 
@@ -29,6 +29,8 @@ router.get("/users", (req: Request, res: Response) => {
 
 router.post("/users", (req: Request, res: Response) => {
 
+   console.log(req.body)
+
    User.create(req.body)
       .then((newUser) => {
          res.status(200).send(newUser)
@@ -37,6 +39,14 @@ router.post("/users", (req: Request, res: Response) => {
          res.status(500).send({ message: "500ка" })
       })
 })
+
+// app.use((req, res, next) => {
+//    req.user = {
+//       _id: "63a7e770a221076e90fbf977" // вставьте сюда _id созданного в предыдущем пункте пользователя
+//    }
+
+//    next()
+// })
 
 app.use(json())
 app.use(router)

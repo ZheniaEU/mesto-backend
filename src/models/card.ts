@@ -8,7 +8,7 @@ type Card = {
    createdAt: Date
 }
 
-const userSchema = new Schema({
+const userSchema = new Schema<Card>({
    name: {
       type: String,
       require: true,
@@ -21,11 +21,12 @@ const userSchema = new Schema({
    },
    owner: {
       type: Schema.Types.ObjectId,
-      require: true
+      require: true,
+      ref: "user"
    },
    likes: {
-      type: Schema.Types.ObjectId,
-      ref: "users",
+      type: [Schema.Types.ObjectId],
+      ref: "user",
       default: []
    },
    createdAt: {
@@ -34,4 +35,4 @@ const userSchema = new Schema({
    }
 })
 
-export const modelCard = model<Card>("cards", userSchema)
+export const modelCard = model<Card>("card", userSchema)
