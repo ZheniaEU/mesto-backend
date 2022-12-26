@@ -1,11 +1,16 @@
-/* eslint-disable*/
-import express, { json, Request, Response, Router } from "express"
+import { Router } from "express"
 import { createUser, getUsers, getUsersByID } from "../controllers/user"
 
-
-const app = express()
 const router = Router()
-// роутер юзара
+
+// запрос на всех юзеров
+router.get("/users", getUsers)
+router.get("/", getUsersByID)
+
+// запрос на создания юзера
+router.post("/users", createUser)
+
+export default router
 
 // app.use("/users", createUser)
 // app.use("/users", getUsers)
