@@ -1,16 +1,14 @@
 import { Router } from "express"
 import { createUser, getUsers, getUsersByID } from "../controllers/user"
 
-const router = Router()
+export const router = Router()
 
 // запрос на всех юзеров
-router.get("/users", getUsers)
+router.get("/", getUsers)
 router.get("/", getUsersByID)
 
 // запрос на создания юзера
-router.post("/users", createUser)
-
-export default router
+router.post("/", createUser)
 
 // app.use("/users", createUser)
 // app.use("/users", getUsers)

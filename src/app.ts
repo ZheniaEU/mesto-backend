@@ -2,7 +2,16 @@
 import express, { json, Request, Response, Router } from "express"
 import mongoose from "mongoose"
 import { createInterface } from "readline"
-import router from "./routes/user"
+import { router as userRouter } from "./routes/user"
+import { ObjectId } from "mongoose"
+
+declare global {
+   namespace Express {
+      interface Request {
+         user: { _id: string | ObjectId }
+      }
+   }
+}
 
 const { PORT = 2999 } = process.env
 mongoose.set("strictQuery", true)
@@ -12,50 +21,20 @@ const app = express()
 
 app.use(json())
 
+// это мидлвар
+// Он добавляет в каждый запрос объект user. Берите из него идентификатор пользователя в контроллере создания карточки:
 app.use((req, res, next) => {
+
    req.user = {
       _id: "63a925a6e3be325ccc549068" // вставьте сюда _id созданного в предыдущем пункте пользователя
    }
 
    next()
 })
+
 // юзер
-app.use(router)
+app.use("/users", userRouter)
 
 app.listen(PORT, () => {
    console.log(`без ошибок, полёт нормальный`)
 })
-
-
-// const readLine = createInterface({
-//    input: process.stdin,
-//    output: process.stdout
-// })
-
-// app.listen(PORT, () => {
-//    readLine.write(`без ошибок, полёт нормальный`)
-// })
-
-// router.get("/users", (req: Request, res: Response) => {
-
-//    User.find({})
-//       .then(users => {
-//          res.status(200).send(users)
-//       })
-//       .catch(e => {
-//          res.status(500).send({ message: "500ка" })
-//       })
-// })
-
-// router.post("/users", (req: Request, res: Response) => {
-
-//    console.log(req.body)
-
-//    User.create(req.body)
-//       .then((newUser) => {
-//          res.status(200).send(newUser)
-//       })
-//       .catch((e) => {
-//          res.status(500).send({ message: "500ка" })
-//       })
-// })
