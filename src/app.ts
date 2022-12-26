@@ -11,20 +11,21 @@ mongoose.connect("mongodb://127.0.0.1:27017/mestodb")
 const app = express()
 
 app.use(json())
+
+app.use((req, res, next) => {
+   req.user = {
+      _id: "63a925a6e3be325ccc549068" // вставьте сюда _id созданного в предыдущем пункте пользователя
+   }
+
+   next()
+})
+// юзер
 app.use(router)
 
 app.listen(PORT, () => {
    console.log(`без ошибок, полёт нормальный`)
 })
 
-// юзер
-// app.use((req, res, next) => {
-//    req.user = {
-//       _id: "63a7e770a221076e90fbf977" // вставьте сюда _id созданного в предыдущем пункте пользователя
-//    }
-
-//    next()
-// })
 
 // const readLine = createInterface({
 //    input: process.stdin,
