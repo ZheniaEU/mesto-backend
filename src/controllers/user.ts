@@ -1,15 +1,16 @@
-import { Request, Response } from "express"
 import { modelUser as User } from "../models/user"
 
-// проверить асинк авейт
-export const getUsers = async (req: Request, res: Response) => {
+import type { Request, Response } from "express"
+
+
+export const getUsers = async (_: Request, res: Response) => {
 
    await User.find({})
       .then((users) => res.status(200).send({ data: users }))
       .catch(() => res.status(500).send({ message: "Произошла ошибка getUsers" }))
 }
 
-export const getUsersByID = async (req: Request, res: Response) => {
+export const getUsersByID = async (_: Request, res: Response) => {
 
    await User.findById({})
       .then((user) => res.status(200).send({ data: user }))
