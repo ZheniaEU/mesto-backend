@@ -2,7 +2,6 @@ import { modelUser as User } from "../models/user"
 
 import type { Request, Response } from "express"
 
-
 export const getUsers = async (_: Request, res: Response) => {
 
    await User.find({})
@@ -24,10 +23,3 @@ export const createUser = async (req: Request, res: Response) => {
       .catch(() => res.status(500).send({ message: "Произошла ошибка createUser" }))
 }
 
-// Создайте контроллеры и роуты для пользователей
-// Реализуйте три роута:
-// GET /users — возвращает всех пользователей
-// GET /users/:userId - возвращает пользователя по _id
-// POST /users — создаёт пользователя
-
-// В теле POST-запроса на создание пользователя передайте JSON-объект с тремя полями: name, about и avatar.

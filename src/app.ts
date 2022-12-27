@@ -3,6 +3,7 @@ import express, { json } from "express"
 import mongoose from "mongoose"
 
 import { userRouter } from "./routes/user"
+import { cardRouter } from "./routes/card"
 import { fakeAuth } from "./middlewares/fakeAuth"
 
 const { PORT = 2999 } = process.env
@@ -14,7 +15,7 @@ const app = express()
 app.use(json())
 app.use(fakeAuth)
 
-// юзер
+app.use("/cards",cardRouter)
 app.use("/users", userRouter)
 
 app.listen(PORT, () => {

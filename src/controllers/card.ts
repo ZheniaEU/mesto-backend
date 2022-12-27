@@ -1,3 +1,27 @@
+import { modelCard as Card } from "../models/card"
+
+import type { Request, Response } from "express"
+
+export const getCards = async (_: Request, res: Response) => {
+
+   await Card.find({})
+      .then((cards) => res.status(200).send({ data: cards }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка getCards" }))
+}
+
+export const crateCard = async (_: Request, res: Response) => {
+
+   await Card.create({})
+      .then((card) => res.status(200).send({ data: card }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка crateCard" }))
+}
+
+export const deleteCard = async (_: Request, res: Response) => {
+
+   await Card.findByIdAndDelete({})
+      .then((card) => res.status(200).send({ data: card }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка deleteCard" }))
+}
 // Создайте контроллеры и роуты для карточек
 // Реализуйте три роута:
 
