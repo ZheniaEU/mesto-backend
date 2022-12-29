@@ -1,25 +1,38 @@
+/* eslint-disable*/
 import { modelCard as Card } from "../models/card"
 
 import type { Request, Response } from "express"
 
-export const getCards = async (_: Request, res: Response) => {
+export const getCards = (_: Request, res: Response) => {
 
-   await Card.find({})
+   Card.find({})
       .then((cards) => res.status(200).send({ data: cards }))
       .catch(() => res.status(500).send({ message: "Произошла ошибка getCards" }))
 }
 
-export const crateCard = async (_: Request, res: Response) => {
+export const crateCard = (req: Request, res: Response) => {
 
-   await Card.create({})
+   const { body: { name, link }, user: { _id } } = req
+
+   Card.create({ name, link, owner: _id })
       .then((card) => res.status(200).send({ data: card }))
       .catch(() => res.status(500).send({ message: "Произошла ошибка crateCard" }))
 }
 
-export const deleteCard = async (_: Request, res: Response) => {
+export const deleteCard = (req: Request, res: Response) => {
 
-   await Card.findByIdAndDelete({})
-      .then((card) => res.status(200).send({ data: card }))
+   const { params: { cardId }, user: { _id } } = req
+
+   Card.findById(cardId)
+      .then(card => {
+         if (card && card.owner === _id) {
+            return Card.findByIdAndDelete({})
+               .then((card) => res.status(200).send({ data: card }))
+               .catch(() => res.status(500).send({ message: "Произошла ошибка deleteCard" }))
+
+         }
+         res.status(403).send({ message: "Произошла ошибка deleteCard" })
+      })
       .catch(() => res.status(500).send({ message: "Произошла ошибка deleteCard" }))
 }
 // Создайте контроллеры и роуты для карточек
