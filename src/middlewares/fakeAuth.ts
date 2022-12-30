@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { ObjectId } from "mongoose"
+import type { ObjectId } from "mongoose"
 
 import type { Request, Response, NextFunction } from "express"
 
@@ -16,6 +16,5 @@ export const fakeAuth = (req: Request, _: Response, next: NextFunction) => {
    req.user = {
       _id: "63a925a6e3be325ccc549068"
    }
-
    next()
 }
