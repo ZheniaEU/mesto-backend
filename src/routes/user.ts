@@ -1,11 +1,11 @@
 import { Router } from "express"
-import { createUser, getUsers, getUsersByID } from "../controllers/user"
+import { createUser, getUsers, getUsersByID, updateAvatar, updateUser } from "../controllers/user"
 
 export const userRouter = Router()
 
-// запрос на всех юзеров
 userRouter.get("/", getUsers)
-userRouter.get("/", getUsersByID)
+userRouter.get("/:userId", getUsersByID)
 
-// запрос на создания юзера
 userRouter.post("/", createUser)
+userRouter.put("/me", updateUser)
+userRouter.put("/me/avatar", updateAvatar)

@@ -22,3 +22,17 @@ export const createUser = (req: Request, res: Response) => {
       .then((newUser) => res.status(200).send({ data: newUser }))
       .catch(() => res.status(500).send({ message: "Произошла ошибка createUser" }))
 }
+
+export const updateUser = (req: Request, res: Response) => {
+   // тело не валидно
+   User.create(req.body)
+      .then((newUser) => res.status(200).send({ data: newUser }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка createUser" }))
+}
+
+export const updateAvatar = (req: Request, res: Response) => {
+   // тело не валидно
+   User.create(req.body)
+      .then((newUser) => res.status(200).send({ data: newUser }))
+      .catch(() => res.status(500).send({ message: "Произошла ошибка createUser" }))
+}
