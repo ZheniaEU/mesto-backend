@@ -17,7 +17,11 @@ const userSchema = new Schema<Card>({
    },
    link: {
       type: String,
-      require: true
+      require: true,
+      validate: {
+         validator: (str: string) => /^https:\/\/([^\s(["<,>/]*)(\/)[^\s[",><]*\.(png|jpg|jpeg|bmp)(\?[^\s[",><]*)?/g.test(str)
+      },
+      message: "неподходящая ссылка"
    },
    owner: {
       type: Schema.Types.ObjectId,

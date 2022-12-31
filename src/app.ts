@@ -1,3 +1,4 @@
+import dotenv from "dotenv"
 import express, { json } from "express"
 import mongoose from "mongoose"
 
@@ -8,14 +9,15 @@ import { erroeHandler } from "./middlewares/errorHandler"
 
 import { createInterface } from "readline"
 
+dotenv.config()
 const readLine = createInterface({
    input: process.stdin,
    output: process.stdout
 })
 
-const { PORT = 2 } = process.env
+const { PORT, URL_DB } = process.env
 mongoose.set("strictQuery", true)
-mongoose.connect("mongodb://127.0.0.1:27017/mestodb")
+mongoose.connect(URL_DB!)
 
 const app = express()
 

@@ -25,7 +25,7 @@ const userSchema = new Schema<User>({
       validate: {
          validator: (str: string) => /^https:\/\/([^\s(["<,>/]*)(\/)[^\s[",><]*\.(png|jpg|jpeg|bmp)(\?[^\s[",><]*)?/g.test(str)
       },
-      message: "нишмогла, ну не прокатило"
+      message: "неподходящая ссылка"
    }
 })
 
