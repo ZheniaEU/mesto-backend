@@ -15,9 +15,9 @@ const readLine = createInterface({
    output: process.stdout
 })
 
-const { PORT, URL_DB } = process.env
+const { PORT = 3000, URL_DB = "mongodb://127.0.0.1:27017/mestodb" } = process.env
 mongoose.set("strictQuery", true)
-mongoose.connect(URL_DB!)
+mongoose.connect(URL_DB)
 
 const app = express()
 
