@@ -5,9 +5,17 @@ npm-debug.log*
 
 # Dependency directory
 node_modules
+/.pnp
+.pnp.js
 
 # Optional npm cache directory
 .npm
+
+# testing
+/coverage
+
+# production
+/build
 
 # Optional REPL history
 .DS_Store
@@ -16,3 +24,15 @@ node_modules
 
 # Typescript build
 dist
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
