@@ -26,19 +26,19 @@ const userSchema = new Schema<User>({
    },
    name: {
       type: String,
-      require: true,
       minlength: 2,
-      maxlength: 30
+      maxlength: 30,
+      default: "Жак-Ив Кусто"
    },
    about: {
       type: String,
-      require: true,
       minlength: 2,
-      maxlength: 200
+      maxlength: 200,
+      default: "Исследователь"
    },
    avatar: {
       type: String,
-      require: true,
+      default: "https://i.imgur.com/kRb04H3.jpg",
       validate: {
          validator: (str: string) => /^https:\/\/([^\s(["<,>/]*)(\/)[^\s[",><]*\.(png|jpg|jpeg|bmp)(\?[^\s[",><]*)?/g.test(str)
       },
