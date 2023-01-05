@@ -1,4 +1,5 @@
-import { model, Schema } from "mongoose"
+import { Document, Model, model, Schema } from "mongoose"
+import bcrypt from "bcrypt"
 
 export type User = {
    email: string
@@ -8,7 +9,11 @@ export type User = {
    avatar: string
 }
 
-const userSchema = new Schema<User>({
+export type UserModel = {
+   findUserByCredentials: (email: string, password: string) => Promise<Document<unknown, any, User>>
+} & Model<User>
+
+const userSchema = new Schema<User, UserModel>({
    email: {
       type: String,
       unique: true,
@@ -46,4 +51,23 @@ const userSchema = new Schema<User>({
    }
 })
 
-export const modelUser = model<User>("user", userSchema)
+userSchema.static("findUserByCredentials", function findUserByCredentials(email: string, password: string) {
+   return this.findOne({ email })
+      .then((user) => {
+         if (!user) {
+            return Promise.reject(new Error("Неправильные почта или пароль"))
+         }
+
+         return bcrypt
+            .compare(password, user.password)
+            .then((matched) => {
+               if (!matched) {
+                  return Promise.reject(new Error("Неправильные почта или пароль"))
+               }
+
+               return user
+            })
+      })
+})
+
+export const modelUser = model<User, UserModel>("user", userSchema)
