@@ -22,6 +22,8 @@ export const auth = (req: SessionRequest, res: Response, next: NextFunction) => 
 
    const { authorization } = req.headers
 
+   console.log(authorization)
+
    if (!authorization || !authorization.startsWith("Bearer ")) {
       return handleAuthError(res)
    }

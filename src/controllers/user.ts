@@ -46,6 +46,20 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
    // .catch((err) => next(err))
 }
 
+export const getUser = (req: Request, res: Response, next: NextFunction) => {
+
+   console.log("здесь")
+
+   User.find({})
+      .orFail(() => {
+         const error = new Error("Пользователь не найден")
+         throw error
+      })
+      .then((user) => res.status(200).send({ data: user }))
+      .catch((err) => next(err))
+}
+
+
 export const getUsers = (_: Request, res: Response, next: NextFunction) => {
 
    User.find({})
@@ -63,7 +77,7 @@ export const getUsersByID = (req: Request, res: Response, next: NextFunction) =>
       .catch((err) => next(err))
 }
 
-
+//! переписать под второй т3
 export const updateUser = (req: Request, res: Response, next: NextFunction) => {
 
    const { name, about } = req.body
@@ -91,7 +105,7 @@ export const login = (req: Request, res: Response) => {
          const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" })
 
          res.status(200).send({ token })
-         res.cookie("jwt", token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true })
+       //  res.cookie("jwt", token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true })
       })
       .catch((err) => { res.status(401).send({ message: err.message }) })
 }
