@@ -1,13 +1,50 @@
+/* eslint-disable */
 import { modelUser as User } from "../models/user"
 import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import { pbkdf2Sync } from "crypto"
 
 import type { NextFunction, Request, Response } from "express"
+import { ObjectId } from "mongoose"
+
+declare global {
+   namespace Express {
+      interface Request {
+         user: { _id: string | ObjectId }
+      }
+   }
+}
 
 dotenv.config()
 
 const { JWT_SECRET = "secret" } = process.env
+
+export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+   // export const createUser = async (req: Request, res: Response) => {
+   console.log(req.body)
+
+   const { email, password, name, avatar, about } = req.body
+
+   return bcrypt.hash(password, 10)
+      .then((hash: string) => User.create({ email, password: hash, name, avatar, about }))
+      .then((user) => { res.status(201).send({ data: user }) })
+      .catch((err) => { res.status(400).send(err) })
+   // let { email, password } = req.body as { email: string, password: string }
+   // //  let newpassword = bcrypt.hashSync(password, 10)
+   // let newpassword = pbkdf2Sync(password, "secret", 1000, 64, "sha512").toString("hex")
+   // console.log(newpassword)
+   // let user = await User.create({ email, password: newpassword })
+   // if (user) {
+   //    res.status(201).send({ data: user })
+   // }
+   // .then((user) => res.status(201).send({ data: user }))
+   // .catch((err) => res.status(400).send(err))
+   // .catch(err =>next(err))
+   // User.create(req.body)
+   // .then((newUser) => res.status(200).send({ data: newUser }))
+   // .catch((err) => next(err))
+}
 
 export const getUsers = (_: Request, res: Response, next: NextFunction) => {
 
@@ -19,24 +56,13 @@ export const getUsers = (_: Request, res: Response, next: NextFunction) => {
 export const getUsersByID = (req: Request, res: Response, next: NextFunction) => {
 
    User.findById(req.params.userId)
-      .then((user) => res.status(200).send({ data: user }))
+      .then((user) => {
+         console.log(user)
+         res.status(200).send({ data: user })
+      })
       .catch((err) => next(err))
 }
 
-//! дописать
-// export const createUser = (req: Request, res: Response, next: NextFunction) => {
-export const createUser = async (req: Request, res: Response) => {
-
-   const { email, password, name, avatar, about } = req.body
-
-   return bcrypt.hash(password, 10)
-      .then((hash: string) => User.create({ email, password: hash, name, avatar, about }))
-      .then((user) => { res.status(201).send({ data: user }) })
-      .catch((err) => { res.status(400).send(err) })
-   // User.create(req.body)
-   //    .then((newUser) => res.status(200).send({ data: newUser }))
-   //    .catch((err) => next(err))
-}
 
 export const updateUser = (req: Request, res: Response, next: NextFunction) => {
 

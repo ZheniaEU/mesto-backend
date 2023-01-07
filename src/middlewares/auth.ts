@@ -30,7 +30,7 @@ export const auth = (req: SessionRequest, res: Response, next: NextFunction) => 
    let payload
 
    try {
-      payload = jwt.verify(token, "super-strong-secret") as UserPayload
+      payload = jwt.verify(token, "secret") as UserPayload
    } catch (err) {
       return handleAuthError(res)
    }

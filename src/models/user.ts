@@ -16,6 +16,7 @@ export type UserModel = {
 const userSchema = new Schema<User, UserModel>({
    email: {
       type: String,
+      required: true,
       unique: true,
       validate: {
          validator: (str: string) => /^[^.](?=[a-z\d!#$%&'*+\-\\/=?.^_`{}|~]+@([a-z-.\d]+\.)+[a-z]{2,}$)((?!\.\.).)*$/i.test(str)
@@ -24,10 +25,12 @@ const userSchema = new Schema<User, UserModel>({
    },
    password: {
       type: String,
-      validate: {
-         validator: (str: string) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#?!@$%^&*-])[a-zA-Z\d#?!@$%^&*-]{8,16}$/.test(str)
-      },
-      message: "Пароль должен быть от 8 до 16 символов. А так же как минимум содержать одну заглавную букву, цифру, а так де спец символ"
+      required: true,
+      select: false
+      // validate: {
+      //    validator: (str: string) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#?!@$%^&*-])[a-zA-Z\d#?!@$%^&*-]{8,16}$/.test(str)
+      // },
+      // message: "Пароль должен быть от 8 до 16 символов. А так же как минимум содержать одну заглавную букву, цифру, а так де спец символ"
    },
    name: {
       type: String,
@@ -52,7 +55,7 @@ const userSchema = new Schema<User, UserModel>({
 })
 
 userSchema.static("findUserByCredentials", function findUserByCredentials(email: string, password: string) {
-   return this.findOne({ email })
+   return this.findOne({ email }).select("+password")
       .then((user) => {
          if (!user) {
             return Promise.reject(new Error("Неправильные почта или пароль"))

@@ -5,7 +5,7 @@ import mongoose from "mongoose"
 import { createUser, login } from "./controllers/user"
 import { userRouter } from "./routes/user"
 import { cardRouter } from "./routes/card"
-import { fakeAuth } from "./middlewares/fakeAuth"
+// import { fakeAuth } from "./middlewares/fakeAuth"
 import { erroeHandler } from "./middlewares/errorHandler"
 import { auth } from "./middlewares/auth"
 
@@ -24,7 +24,7 @@ mongoose.connect(URL_DB)
 const app = express()
 
 app.use(json())
-app.use(fakeAuth)
+// app.use(fakeAuth)
 
 app.post("/signin", login)
 app.post("/signup", createUser)
