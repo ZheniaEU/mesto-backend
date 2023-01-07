@@ -1,7 +1,6 @@
 /* eslint-disable */
-import type { ObjectId } from "mongoose"
-
 import type { Request, Response, NextFunction } from "express"
+import type { ObjectId } from "mongoose"
 
 declare global {
    namespace Express {

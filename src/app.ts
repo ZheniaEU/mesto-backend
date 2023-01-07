@@ -2,10 +2,12 @@ import dotenv from "dotenv"
 import express, { json } from "express"
 import mongoose from "mongoose"
 
+import { createUser, login } from "./controllers/user"
 import { userRouter } from "./routes/user"
 import { cardRouter } from "./routes/card"
 import { fakeAuth } from "./middlewares/fakeAuth"
 import { erroeHandler } from "./middlewares/errorHandler"
+import { auth } from "./middlewares/auth"
 
 import { createInterface } from "readline"
 
@@ -24,6 +26,10 @@ const app = express()
 app.use(json())
 app.use(fakeAuth)
 
+app.post("/signin", login)
+app.post("/signup", createUser)
+
+app.use(auth)
 app.use("/cards", cardRouter)
 app.use("/users", userRouter)
 app.use(erroeHandler)

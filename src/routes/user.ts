@@ -6,6 +6,6 @@ export const userRouter = Router()
 userRouter.get("/", getUsers)
 userRouter.get("/:userId", getUsersByID)
 
-userRouter.post("/", createUser)
+// userRouter.post("/", createUser)
 userRouter.put("/me", updateUser)
 userRouter.put("/me/avatar", updateAvatar)

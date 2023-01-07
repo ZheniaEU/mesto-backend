@@ -54,7 +54,7 @@ export const updateAvatar = (req: Request, res: Response, next: NextFunction) =>
       .catch((err) => next(err))
 }
 
-// ? чё с мидлваром? он нам нужен?
+// ? чё с мидлваром? он нам нужен?, не понял я 2 раза токен посылаю, но только 1 раз принудительно в куки запихиваю?
 export const login = (req: Request, res: Response) => {
 
    const { email, password } = req.body
@@ -65,6 +65,7 @@ export const login = (req: Request, res: Response) => {
          const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" })
 
          res.status(200).send({ token })
+         res.cookie("jwt", token, { maxAge: 3600000 * 24 * 7, httpOnly: true, sameSite: true })
       })
       .catch((err) => { res.status(401).send({ message: err.message }) })
 }
