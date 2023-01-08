@@ -1,3 +1,4 @@
+import { JWT_SECRET } from "../config/config"
 import { Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 
@@ -23,7 +24,7 @@ export const auth = (req: AuthorizationRequest, res: Response, next: NextFunctio
    let payload
 
    try {
-      payload = jwt.verify(token, "secret") as UserPayload
+      payload = jwt.verify(token, JWT_SECRET) as UserPayload
    } catch (err) {
       return handleAuthError(res)
    }
