@@ -1,17 +1,7 @@
-import { Document, Model, model, Schema } from "mongoose"
+import { model, Schema } from "mongoose"
 import bcrypt from "bcrypt"
 
-export type User = {
-   email: string
-   password: string
-   name: string
-   about: string
-   avatar: string
-}
-
-export type UserModel = {
-   findUserByCredentials: (email: string, password: string) => Promise<Document<unknown, any, User>>
-} & Model<User>
+import type { User, UserModel } from "../utils/types"
 
 const userSchema = new Schema<User, UserModel>({
    email: {

@@ -1,14 +1,7 @@
-import { Request, Response, NextFunction } from "express"
-import jwt, { JwtPayload } from "jsonwebtoken"
-import { ObjectId } from "mongoose"
+import { Response, NextFunction } from "express"
+import jwt from "jsonwebtoken"
 
-type SessionRequest = {
-   user: string | JwtPayload
-} & Request
-
-type UserPayload = {
-   _id: ObjectId
-}
+import type { AuthorizationRequest, UserPayload } from "../utils/types"
 
 const handleAuthError = (res: Response) => {
    res.status(401).send({ message: "Необходима авторизация" })
@@ -18,11 +11,9 @@ const extractBearerToken = (header: string) => {
    return header.replace("Bearer ", "")
 }
 
-export const auth = (req: SessionRequest, res: Response, next: NextFunction) => {
+export const auth = (req: AuthorizationRequest, res: Response, next: NextFunction) => {
 
    const { authorization } = req.headers
-
-   console.log(authorization)
 
    if (!authorization || !authorization.startsWith("Bearer ")) {
       return handleAuthError(res)
