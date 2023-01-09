@@ -5,15 +5,36 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
 import type { Request, Response, NextFunction } from "express"
+import { badRequestError, conflictError } from "../utils/errors"
 
+// при создании пользователя, я помимо хеша убрал ещё и _id пользователя в моге, на фронте он никак не нужен,
+// так же убрал versionKey, и сразу прикрутил токен
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
    const { email, password, name, avatar, about } = req.body
 
    return bcrypt.hash(password, 10)
       .then((hash: string) => User.create({ email, password: hash, name, avatar, about }))
-      .then((user) => { res.status(201).send({ data: user }) })
-      .catch((err) => { res.status(400).send(err) })
+      .then((user) => {
+         res.status(201).send({
+            data: {
+               email: user.email,
+               name: user.name,
+               about: user.about,
+               avatar: user.avatar,
+               token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" })
+            }
+         })
+      })
+      .catch((err) => {
+         if (err.code === 11000) {
+            next(conflictError("Пользователь cс такой существует"))
+         }
+         if (err.name === "ValidationError") {
+            next(badRequestError(err.errors?.email?.properties?.message || "Данные введены не правильно"))
+         }
+         next(err)
+      })
 }
 
 export const getUser = (req: Request, res: Response, next: NextFunction) => {

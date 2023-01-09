@@ -9,18 +9,18 @@ const userSchema = new Schema<User, UserModel>({
       required: true,
       unique: true,
       validate: {
-         validator: (str: string) => /^[^.](?=[a-z\d!#$%&'*+\-\\/=?.^_`{}|~]+@([a-z-.\d]+\.)+[a-z]{2,}$)((?!\.\.).)*$/i.test(str)
-      },
-      message: "Ваша почта не подходит"
+         validator: (str: string) => /^[^.](?=[a-z\d!#$%&'*+\-\\/=?.^_`{}|~]+@([a-z-.\d]+\.)+[a-z]{2,}$)((?!\.\.).)*$/i.test(str),
+         message: "Ваша почта не подходит"
+      }
    },
    password: {
       type: String,
       required: true,
       select: false
       // validate: {
-      //    validator: (str: string) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#?!@$%^&*-])[a-zA-Z\d#?!@$%^&*-]{8,16}$/.test(str)
+      //    validator: (str: string) => !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#?!@$%^&*-])[a-zA-Z\d#?!@$%^&*-]{8,16}$/.test(str),
+      // message: "Пароль должен быть от 8 до 16 символов. А так же как минимум содержать одну заглавную букву, цифру, а так же спец символ"
       // },
-      // message: "Пароль должен быть от 8 до 16 символов. А так же как минимум содержать одну заглавную букву, цифру, а так де спец символ"
    },
    name: {
       type: String,
