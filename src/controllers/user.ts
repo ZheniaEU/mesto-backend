@@ -28,7 +28,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       })
       .catch((err) => {
          if (err.code === 11000) {
-            next(conflictError("Пользователь cс такой существует"))
+            next(conflictError("Пользователь c такой почтой существует"))
          }
          if (err.name === "ValidationError") {
             next(badRequestError(err.errors?.email?.properties?.message || "Данные введены не правильно"))
