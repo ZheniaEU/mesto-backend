@@ -5,13 +5,19 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
 import type { Request, Response, NextFunction } from "express"
+import { passwordValidation } from "../utils/constants"
 import { badRequestError, conflictError } from "../utils/errors"
 
 // при создании пользователя, я помимо хеша убрал ещё и _id пользователя в моге, на фронте он никак не нужен,
-// так же убрал versionKey, и сразу прикрутил токен
+// так же убрал versionKey, и сразу прикрутил токен, а так же прикрутил валидацию пароля, в схеме его не прикрутишь
+// так как в схеме лежит хеш
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
    const { email, password, name, avatar, about } = req.body
+
+   if (!passwordValidation.test(password)) {
+      return next(badRequestError("Пароль должен быть от 8 до 16 символов. А так же как минимум содержать одну заглавную букву, цифру, а так же спец символ"))
+   }
 
    return bcrypt.hash(password, 10)
       .then((hash: string) => User.create({ email, password: hash, name, avatar, about }))
@@ -28,7 +34,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
       })
       .catch((err) => {
          if (err.code === 11000) {
-            next(conflictError("Пользователь c такой почтой существует"))
+            next(conflictError("Пользователь c такой почтой уже существует"))
          }
          if (err.name === "ValidationError") {
             next(badRequestError(err.errors?.email?.properties?.message || "Данные введены не правильно"))

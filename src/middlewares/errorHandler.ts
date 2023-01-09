@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express"
+import { Request, Response } from "express"
 
 import type { ErrorHandler } from "../utils/types"
 
-export const erroeHandler = ((err: ErrorHandler, _: Request, res: Response, next: NextFunction) => {
+export const erroeHandler = ((err: ErrorHandler, _: Request, res: Response) => {
 
    const { statusCode = 500, message } = err
 

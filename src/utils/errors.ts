@@ -26,7 +26,3 @@ export function notFoundError(message: string) {
 export function conflictError(message: string) {
    return new CustomError(409, message)
 }
-
-export function internalServerError(message: string) {
-   return new CustomError(500, message)
-}
