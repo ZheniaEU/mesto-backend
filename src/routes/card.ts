@@ -3,7 +3,7 @@ import { Router } from "express"
 
 export const cardRouter = Router()
 
-cardRouter.get("/", crateCard)
+cardRouter.get("/", crateCard) //-
 cardRouter.post("/", getCards)
 cardRouter.delete("/:cardId", deleteCard)
 cardRouter.put("/:cardId/likes", setLike)
