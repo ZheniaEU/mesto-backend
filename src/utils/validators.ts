@@ -1,21 +1,23 @@
 import { celebrate, Joi } from "celebrate"
-import { emailValidation } from "./constants"
+import { emailValidation, imageValidation, passwordValidation } from "./constants"
 
 export const validateCrateUser = celebrate({
    body: Joi.object().keys({
-      email: Joi.string().required().email({ minDomainSegments: 2 }),
-      password: Joi.string().required(),
+      email: Joi.string().required().regex(emailValidation).message("Ваша почта не подходит"),
+      password: Joi.string().required().regex(passwordValidation)
+         .message("Пароль должен быть от 8 до 16 символов. А так же как минимум содержать одну заглавную букву, цифру и спецсимвол"),
       name: Joi.string().min(2).max(30).default("Жак-Ив Кусто"),
       about: Joi.string().min(2).max(200).default("Исследователь"),
       avatar: Joi.string().default("https://i.imgur.com/kRb04H3.jpg")
-   }).unknown(true)
+   })
 })
 
+// и тут подкралась засада, если старая маска пароля в постмане не удволетворяет запрос, придётся создать нового пользователя с верной маской:)
 export const validateLogin = celebrate({
    body: Joi.object().keys({
-      email: Joi.string().email({ minDomainSegments: 2 }).pattern(emailValidation).message("крайне стрёмная шляпа, тянущая за собой 1000зависимостей, никогда бы её у себя на проекте не использовал"),
-      password: Joi.string().required()
-   }).unknown(true)
+      email: Joi.string().required().regex(emailValidation).message("Неверная почта или пароль"),
+      password: Joi.string().required().regex(passwordValidation).message("Неверная почта или пароль")
+   })
 })
 
 export const validateUsersByID = celebrate({
@@ -26,28 +28,27 @@ export const validateUsersByID = celebrate({
 
 export const validateUpdateUser = celebrate({
    body: Joi.object().keys({
-      email: Joi.string().email({ minDomainSegments: 2 }),
-      password: Joi.string().required()
-   }).unknown(true)
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(200),
+      avatar: Joi.string().regex(imageValidation).message("не корректная ссылка на изображение")
+   })
 })
 
 export const validateUpdateAvatar = celebrate({
    body: Joi.object().keys({
-      email: Joi.string().email({ minDomainSegments: 2 }),
-      password: Joi.string().required()
-   }).unknown(true)
+      avatar: Joi.string().regex(imageValidation).message("не корректная ссылка на изображение")
+   })
 })
 
-/*
-cardRouter.post("/", getCards)
-cardRouter.delete("/:cardId", deleteCard)
-cardRouter.put("/:cardId/likes", setLike)
-cardRouter.delete("/:cardId/likes", removeLike)
-*/
+export const validateIdCard = celebrate({
+   params: Joi.object().keys({
+      cardId: Joi.string().length(24).hex().required()
+   })
+})
 
-/* https://snipboard.io/WZz1Ne.jpg Прошу добавить joi/celebrate валидацию для всех
-роутов кроме GET \users и GET /cards и GET /users/me также при валидации id необходимо
-валидировать ObjectID не просто как последовательность символов длиной 24 символа, а как hex
-последовательность длиной 24 символа (благо у Joi есть встроенный hex-валидатор). Удаление карточки
- по id test4583q0d2574b5862test или другому инвалидному не должно передаваться контроллеру. celebrate
-  должен заворачивать такие запросы до передачи их контроллеру. */
+export const validateCrateCard = celebrate({
+   body: Joi.object().keys({
+      name: Joi.string().min(2).max(30).required(),
+      link: Joi.string().uri().regex(imageValidation).message("не корректная ссылка на изображение")
+   })
+})

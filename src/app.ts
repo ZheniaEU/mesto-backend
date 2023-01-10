@@ -40,5 +40,5 @@ app.use(errors())
 app.use(erroeHandler)
 
 app.listen(PORT, () => {
-   console.log(`без ошибок, полёт нормальный на порту ${PORT}`)
+   readLine.write(`без ошибок, полёт нормальный на порту ${PORT}`)
 })

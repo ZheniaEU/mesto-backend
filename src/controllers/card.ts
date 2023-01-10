@@ -19,7 +19,6 @@ export const crateCard = (req: Request, res: Response, next: NextFunction) => {
       .catch((err) => next(err))
 }
 
-//! не оттестирована, так же нужно дописать
 export const deleteCard = (req: Request, res: Response, next: NextFunction) => {
 
    const { cardId } = req.params

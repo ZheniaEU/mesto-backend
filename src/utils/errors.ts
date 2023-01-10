@@ -11,9 +11,9 @@ export function badRequestError(message: string) {
    return new CustomError(400, message)
 }
 
-export function unauthorizedError(message: string) {
-   return new CustomError(401, message)
-}
+// export function unauthorizedError(message: string) {
+//    return new CustomError(401, message)
+// }
 
 export function forbiddenError(message: string) {
    return new CustomError(403, message)
