@@ -1,12 +1,6 @@
 import { model, Schema } from "mongoose"
 
-type Card = {
-   name: string
-   link: string
-   owner: Schema.Types.ObjectId
-   likes: Array<Schema.Types.ObjectId>
-   createdAt: Date
-}
+import type { Card } from "../utils/types"
 
 const userSchema = new Schema<Card>({
    name: {
@@ -37,6 +31,6 @@ const userSchema = new Schema<Card>({
       type: Date,
       default: Date.now
    }
-})
+}, { versionKey: false })
 
 export const modelCard = model<Card>("card", userSchema)

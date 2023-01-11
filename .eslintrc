@@ -42,6 +42,10 @@
       "arrow-body-style" : "off",
       "import/order": "off",
       "no-multiple-empty-lines":["error", { "max": 2, "maxBOF": 1 }],
+      "no-unused-vars" : "off",
+      "consistent-return": "off",
+      "no-console":"off",
+      "linebreak-style": "off",
       "max-len": ["error", { "code": 200, "tabWidth": 4 }],
          "object-curly-newline": ["warn", {
              "ObjectPattern": { "multiline": true },

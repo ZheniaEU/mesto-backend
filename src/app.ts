@@ -1,31 +1,42 @@
-import dotenv from "dotenv"
-import express, { json } from "express"
-import mongoose from "mongoose"
+import { PORT, URL_DB } from "./config/config"
 
+import express from "express"
+import mongoose from "mongoose"
+import { errors } from "celebrate"
+
+import { createUser, login } from "./controllers/user"
 import { userRouter } from "./routes/user"
 import { cardRouter } from "./routes/card"
-import { fakeAuth } from "./middlewares/fakeAuth"
+import { errorLogger, requestLogger } from "./middlewares/logger"
 import { erroeHandler } from "./middlewares/errorHandler"
+import { auth } from "./middlewares/auth"
+import { validateCrateUser, validateLogin } from "./utils/validators"
 
 import { createInterface } from "readline"
 
-dotenv.config()
 const readLine = createInterface({
    input: process.stdin,
    output: process.stdout
 })
 
-const { PORT = 3000, URL_DB = "mongodb://127.0.0.1:27017/mestodb" } = process.env
 mongoose.set("strictQuery", true)
-mongoose.connect(URL_DB)
+mongoose.connect(URL_DB!)
 
 const app = express()
 
-app.use(json())
-app.use(fakeAuth)
+app.use(express.json())
 
+app.use(requestLogger)
+
+app.post("/signup", validateCrateUser, createUser)
+app.post("/signin", validateLogin, login)
+
+app.use(auth)
 app.use("/cards", cardRouter)
 app.use("/users", userRouter)
+
+app.use(errorLogger)
+app.use(errors())
 app.use(erroeHandler)
 
 app.listen(PORT, () => {

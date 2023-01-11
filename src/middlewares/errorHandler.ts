@@ -1,8 +1,14 @@
 import { NextFunction, Request, Response } from "express"
 
+import type { ErrorHandler } from "../utils/types"
 
-export const erroeHandler = ((_: Request, res: Response, next: NextFunction) => {
+export const erroeHandler = ((err: ErrorHandler, _: Request, res: Response, next: NextFunction) => {
 
-   res.status(500).send({ message: "На сервере произошла ошибка" })
+   const { statusCode = 500, message } = err
+
+   res.status(statusCode).send({
+      message: statusCode === 500 ? "На сервере произошла ошибка" : message
+   })
+
    next()
 })
