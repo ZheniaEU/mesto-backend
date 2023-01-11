@@ -12,7 +12,6 @@ export const validateCrateUser = celebrate({
    })
 })
 
-// и тут подкралась засада, если старая маска пароля в постмане не удволетворяет запрос, придётся создать нового пользователя с верной маской:)
 export const validateLogin = celebrate({
    body: Joi.object().keys({
       email: Joi.string().required().regex(emailValidation).message("Неверная почта или пароль"),

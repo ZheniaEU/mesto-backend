@@ -7,8 +7,6 @@ import bcrypt from "bcrypt"
 import type { Request, Response, NextFunction } from "express"
 import { badRequestError, conflictError } from "../utils/errors"
 
-// при создании пользователя, я помимо хеша убрал ещё и _id пользователя в моге, на фронте он никак не нужен,
-// так же убрал versionKey, и сразу прикрутил токен
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
    const { email, password, name, avatar, about } = req.body

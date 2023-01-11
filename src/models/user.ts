@@ -39,7 +39,7 @@ const userSchema = new Schema<User, UserModel>({
       },
       message: "неподходящая ссылка"
    }
-})
+}, { versionKey: false })
 
 userSchema.static("findUserByCredentials", function findUserByCredentials(email: string, password: string) {
    return this.findOne({ email }).select("+password")

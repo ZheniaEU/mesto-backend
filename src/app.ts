@@ -1,6 +1,6 @@
 import { PORT, URL_DB } from "./config/config"
 
-import express, { json } from "express"
+import express from "express"
 import mongoose from "mongoose"
 import { errors } from "celebrate"
 
@@ -24,7 +24,7 @@ mongoose.connect(URL_DB!)
 
 const app = express()
 
-app.use(json())
+app.use(express.json())
 
 app.use(requestLogger)
 
